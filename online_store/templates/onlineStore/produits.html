@@ -1,0 +1,76 @@
+{% load static %}
+{% include './include/header.html' %}
+
+ <!-- section header -->
+ <section class="header">
+    <div class="logo">
+        <h1>G</h1><h1>o</h1><h1>l</h1><h1>d</h1><h1>e</h1><h1>n</h1>
+        <h1>S</h1><h1>tore.</h1>
+    </div>
+    <div class="nav">
+        <div class="links">
+            <a href="{% url 'store:index' %}">Acceuil</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'account:logout' %}">{{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'account:login' %}">Se connectez</a>
+            {% endif %}
+            <a href="{% url 'store:panier' %}">Panier</a>
+        </div>
+        <div class="social_links">
+            <a href="#"><img src="{% static 'onlineStore/icone/instagram3.png' %}"></a>
+            <a href="#"><img src="{% static 'onlineStore/icone/whatsapp.png' %}"></a>    
+        </div> 
+        <div class="menu_list"></div>
+    </div>
+
+</section>
+<!-- section header -->
+
+
+<section class="store">
+    <form method="get" action="{% url 'store:prods' %}" class="form3"> <!-- formulaire necessaire pour recuprerez le valeur notez qu'ici nous avons le method get -->
+        <div class="searchbox">
+            <input type='search' name="contain" placeholder="Recherchez..."> <!-- le nom que vous donnez servira a recuperer la valeur dans les vues -->
+            <button type="submit">Recherche</button>
+        </div>
+    </form>
+
+    <h1 class="title">Nos Produits</h1>    
+    {% for product in produit_list %}
+    <p id="{{product.id}}"></p>
+        <div class="produits">
+            <div class="left">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}">
+                {% else %}
+                    <img src="{{ product.image1.url }}">
+                {% endif %}
+            </div>
+            <div class="right">
+                <a href="{% url 'store:article' product.slug %}" class="name">{{ product.name }}</a>
+                <p class="p">Stock : {{product.quantity}}</p>
+                <p>Prix : {{product.price}} XOF</p>    
+                <a href="{% url 'store:ajout' product.id %}">+ Panier</a>
+            </div>
+        </div>
+    {% endfor %}
+    
+                 
+</section>
+
+<div class="page_links">
+    
+    {% if produit_list.has_previous %}  <!-- <<.has_previous>> verifie si la page actuel a un page precedent -->
+        <a href="?page={{ produit_list.previous_page_number }}">Précedent</a>  <!-- nous recuperons la page correspondante grace a la methode <<.previous_page_number>> que nous remettons comme parametre a l'url via "?page" -->
+    {% endif %}
+
+    <!-- meme chose mais pour la page suivante -->
+    {% if produit_list.has_next %}
+        <a href="?page={{ produit_list.next_page_number }}">Suivant</a>
+    {% endif %}
+
+</div>
+
+
+{% include './include/end.html' %}

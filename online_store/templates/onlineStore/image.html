@@ -1,0 +1,48 @@
+{% include './include/header.html' %}
+{% load static %}
+
+<section class="header">
+    <div class="logo">
+        <h1>G</h1><h1>o</h1><h1>l</h1><h1>d</h1><h1>e</h1><h1>n</h1>
+        <h1>S</h1><h1>tore.</h1>
+    </div>
+    <div class="nav">
+        <div class="links">
+            <a href="{% url 'store:index' %}">Acceuil</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'account:logout' %}">{{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'account:login' %}">Se connectez</a>
+            {% endif %}
+            <a href="{% url 'account:cont' %}">Contactez-Nous</a>
+        </div>
+        <div class="social_links">
+            <a href="#"><img src="{% static 'onlineStore/icone/instagram.png' %}"></a>
+            <a href="#"><img src="{% static 'onlineStore/icone/whatsapp.png' %}"></a>    
+        </div>
+        <div class="menu_list"></div>
+    </div>
+</section>
+
+<div class="imagebox">
+    {% if prod.image %}
+        <img src="{{prod.image.url}}">
+    {% else %}
+    {% endif %}
+
+    {% if prod.image1 %}
+        <img src="{{prod.image1.url}}">
+    {% else %}
+    {% endif %}
+
+    {% if prod.image2 %}
+        <img src="{{prod.image2.url}}">
+    {% else %}
+    {% endif %}
+
+</div>       
+
+    
+
+
+{% include './include/end.html' %}

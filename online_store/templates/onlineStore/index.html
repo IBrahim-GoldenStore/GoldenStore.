@@ -1,0 +1,76 @@
+{% load static %}
+{% include './include/header.html' %}
+
+
+ <!-- section header -->
+<section class="header">
+    <div class="logo">
+        <h1>G</h1><h1>o</h1><h1>l</h1><h1>d</h1><h1>e</h1><h1>n</h1>
+        <h1>S</h1><h1>tore.</h1>
+    </div>
+    <div class="nav">
+        <div class="links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'account:logout' %}">{{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'account:login' %}">Se connectez</a>
+            {% endif %}
+            <a href="{% url 'store:panier' %}">Panier</a>
+            <a href="{% url 'account:cont' %}">Contactez-Nous</a>
+        </div>
+        <div class="social_links">
+            <a href="#"><img src="{% static 'onlineStore/icone/instagram3.png' %}"></a>
+            <a href="#"><img src="{% static 'onlineStore/icone/whatsapp.png' %}"></a>    
+        </div> 
+        <div class="menu_list"></div>
+    </div>
+
+</section>
+<!-- section header -->
+        
+<!-- banière -->
+<section class="global">
+    <div class="head">
+        <section class="description">
+            <span>Boutique d'achat <br>en-ligne</span>
+            <div class="infos_bulle">
+                <p>+300 produits</p> 
+                <p><a href="{% url 'store:prods' %}">Voir les produits</a></p> 
+                <p>+Livraison rapide</p> 
+            </div>
+    
+        </section>
+    </div>
+
+
+<!-- banière -->
+
+<!-- produits -->   
+    <p id="pack"></p>
+
+    <section class="store">
+        <h1 class="title">Top Produits</h1>    
+        {% for product in products %}
+        <p id="{{product.id}}"></p>
+            <div class="produits">
+                <div class="left">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}">
+                    {% else %}
+                        <img src="{{ product.image1.url }}">
+                    {% endif %}
+                </div>
+                <div class="right">
+                    <a href="{% url 'store:article' product.slug %}" class="name">{{ product.name }}</a>
+                    <p class="p">Stock : {{product.quantity}}</p>
+                    <p>Prix : {{product.price}} XOF</p>    
+                    <a href="{% url 'store:ajout' product.id %}">+ Panier</a>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+<!-- produits. -->
+ 
+<footer>Tout droits réservée</footer>
+</section>
+{% include './include/end.html' %}
